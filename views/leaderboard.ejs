@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .leaderboard-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .leaderboard-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .leaderboard-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: slideInUp 0.6s ease-out 0.2s both;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .leaderboard-table th:first-child {
+            border-radius: 12px 0 0 0;
+        }
+
+        .leaderboard-table th:last-child {
+            border-radius: 0 12px 0 0;
+        }
+
+        .leaderboard-table td {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid #e1e5e9;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-table tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+            transform: scale(1.01);
+        }
+
+        .rank {
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 60px;
+        }
+
+        .rank-1 {
+            color: #ffd700;
+        }
+
+        .rank-2 {
+            color: #c0c0c0;
+        }
+
+        .rank-3 {
+            color: #cd7f32;
+        }
+
+        .intern-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .intern-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .intern-details h4 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .intern-details p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .donations {
+            font-weight: 700;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .referrals {
+            text-align: center;
+            color: #666;
+        }
+
+        .department {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .filter-btn.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .leaderboard-title {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .leaderboard-table {
+                font-size: 0.9rem;
+            }
+
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 1rem 0.5rem;
+            }
+
+            .intern-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .intern-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        .floating-action {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .floating-action:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .trophy-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="nav-logo">🏆 Leaderboard</div>
+            <div class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/leaderboard">Leaderboard</a>
+                <a href="/">Logout</a>
+            </div>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="leaderboard-header">
+            <div class="trophy-icon">🏆</div>
+            <h1 class="leaderboard-title">Intern Leaderboard</h1>
+            <p class="leaderboard-subtitle">See who's leading the pack in donations and referrals</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">$<%= leaderboard.reduce((sum, intern) => sum + intern.donations, 0).toLocaleString() %></div>
+                <div class="stat-label">Total Donations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value"><%= leaderboard.length %></div>
+                <div class="stat-label">Active Interns</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">$<%= Math.round(leaderboard.reduce((sum, intern) => sum + intern.donations, 0) / leaderboard.length).toLocaleString() %></div>
+                <div class="stat-label">Average per Intern</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value"><%= leaderboard.reduce((sum, intern) => sum + intern.referrals, 0) %></div>
+                <div class="stat-label">Total Referrals</div>
+            </div>
+        </div>
+
+        <div class="leaderboard-container">
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All Interns</button>
+                <button class="filter-btn" data-filter="engineering">Engineering</button>
+                <button class="filter-btn" data-filter="marketing">Marketing</button>
+                <button class="filter-btn" data-filter="sales">Sales</button>
+                <button class="filter-btn" data-filter="design">Design</button>
+            </div>
+
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Intern</th>
+                        <th>Donations</th>
+                        <th>Referrals</th>
+                        <th>Department</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% leaderboard.forEach((intern, index) => { %>
+                        <tr class="intern-row" data-department="<%= intern.department.toLowerCase() %>">
+                            <td class="rank rank-<%= index + 1 %>">
+                                <% if (index === 0) { %>🥇<% } %>
+                                <% if (index === 1) { %>🥈<% } %>
+                                <% if (index === 2) { %>🥉<% } %>
+                                <% if (index > 2) { %>#<%= index + 1 %><% } %>
+                            </td>
+                            <td>
+                                <div class="intern-info">
+                                    <div class="intern-avatar">
+                                        <%= intern.name.split(' ').map(n => n[0]).join('') %>
+                                    </div>
+                                    <div class="intern-details">
+                                        <h4><%= intern.name %></h4>
+                                        <p><%= intern.department %></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="donations">$<%= intern.donations.toLocaleString() %></td>
+                            <td class="referrals"><%= intern.referrals %></td>
+                            <td>
+                                <div class="department"><%= intern.department %></div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="floating-action" onclick="window.location.href='/dashboard'">
+        📊
+    </div>
+
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const internRows = document.querySelectorAll('.intern-row');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+
+                internRows.forEach(row => {
+                    const department = row.getAttribute('data-department');
+                    
+                    if (filter === 'all' || department === filter) {
+                        row.style.display = 'table-row';
+                        row.style.animation = 'slideInUp 0.3s ease-out';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Add hover effects
+        document.querySelectorAll('.leaderboard-table tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.01)';
+                this.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
+            });
+
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = 'none';
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards for animation
+        document.querySelectorAll('.stat-card, .leaderboard-container').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add real-time updates simulation
+        setInterval(() => {
+            const randomRow = document.querySelectorAll('.intern-row')[Math.floor(Math.random() * 5)];
+            const donationsCell = randomRow.querySelector('.donations');
+            const currentAmount = parseInt(donationsCell.textContent.replace(/[$,]/g, ''));
+            const newAmount = currentAmount + Math.floor(Math.random() * 50);
+            donationsCell.textContent = '$' + newAmount.toLocaleString();
+            
+            // Add highlight effect
+            donationsCell.style.background = 'rgba(102, 126, 234, 0.2)';
+            setTimeout(() => {
+                donationsCell.style.background = 'transparent';
+            }, 1000);
+        }, 15000); // Update every 15 seconds
+    </script>
+</body>
+</html> 
